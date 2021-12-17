@@ -18,4 +18,9 @@ public class ColorSettings
 
     public static Color windowActiveColor = new Color32(0, 100, 0, 255);
     public static Color windowInactiveColor = Color.grey;
+
+    public static Color capsuleActiveColor = Color.green;
+    public static Color capsuleInactiveColor = Color.white;
+    public static Color capsuleDestroyColor = Color.red;
+    public static Color capsuleSelectColor = Color.blue;
 }

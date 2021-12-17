@@ -9,8 +9,9 @@ public class Pointer : MonoBehaviour
 
     public Ray rayPointer;
 
-    public enum controlOption {mouse};
-    public controlOption control;
+    enum controlOption {mouse};
+    [SerializeField]
+    controlOption control;
 
     public RaycastHit hit;
 
@@ -70,7 +71,6 @@ public class Pointer : MonoBehaviour
     {
         if (control == controlOption.mouse)
         {
-            Debug.Log(Input.mousePosition);
             rayPointer = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             mouseLeftDown = Input.GetMouseButtonDown(0);
