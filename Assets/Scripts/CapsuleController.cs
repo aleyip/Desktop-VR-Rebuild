@@ -80,7 +80,7 @@ public class CapsuleController : MonoBehaviour
             if (pointer.hit.collider.gameObject == gameObject)
             {
                 rend.material.color = ColorSettings.capsuleSelectColor;
-                pointer.sphereColor = ColorSettings.hoverActiveWindowColor;
+                pointer.sphereColor = ColorSettings.hoverMoveWindowColor;
                 if (pointer.mouseLeftDown)
                 {
                     function = functionList.Move;
@@ -93,16 +93,15 @@ public class CapsuleController : MonoBehaviour
 
     void moveFunction()
     {
+        pointer.sphereColor = ColorSettings.hoverMoveColor;
         gameObject.transform.position = pointer.rayPointer.direction * startPosition.magnitude;
         if (gameObject.transform.position.y < -0.5f)
         {
             rend.material.color = ColorSettings.capsuleDestroyColor;
-            pointer.sphereColor = ColorSettings.capsuleDestroyColor;
         }
         else
         {
             rend.material.color = ColorSettings.capsuleActiveColor;
-            pointer.sphereColor = ColorSettings.capsuleActiveColor;
         }
         if (pointer.mouseLeftUp)
         {
