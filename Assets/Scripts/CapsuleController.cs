@@ -80,7 +80,7 @@ public class CapsuleController : MonoBehaviour
             if (pointer.hit.collider.gameObject == gameObject)
             {
                 rend.material.color = ColorSettings.capsuleSelectColor;
-                pointer.sphereColor = ColorSettings.hoverMoveWindowColor;
+                pointer.sphereColor = ColorSettings.hoverMoveColor;
                 if (pointer.mouseLeftDown)
                 {
                     function = functionList.Move;

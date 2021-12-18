@@ -15,7 +15,7 @@ public class LibreOfficeCalcApp : BaseApplication
             {
                 Int32 upLeftPos;
                 {
-                    Int32 xBorder = 0;
+                    Int32 xBorder = 8;
                     Int32 yBorder = 30;
                     upLeftPos = (Int32)((yBorder << 16) | xBorder);
                 }
