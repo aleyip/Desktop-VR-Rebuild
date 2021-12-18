@@ -18,8 +18,8 @@ public class AddRemoveWindows : MonoBehaviour
 
     public bool showNotepad, showPaint, showBrowser, showSheets, showOthers;
 
-    public Vector3 createPos = new Vector3(0, -10, 0);
-    public Vector3 createRot = new Vector3(-90, 0, 0);
+    public Vector3 createPos;
+    public Vector3 createRot;
 
     private Pointer pointer;
 
@@ -35,18 +35,6 @@ public class AddRemoveWindows : MonoBehaviour
         captureManager.OnRemoveWindow += OnRemoveWindow;
         lastUpdateTime = Time.time;
         lastPollWindowsTime = Time.time;
-
-        if (showBrowser) CreateBrowser("testeBrowser");
-        //if (showBrowser)
-        //{
-        //    //Debug.Log("Creating Browser");
-        //    //BrowserApp newObj = gameObject.AddComponent<BrowserApp>();
-        //    //newObj.setName("Browser1");
-        //    //newObj.Move(createPos);
-        //    //WebBrowser newObj = gameObject.AddComponent<WebBrowser>();
-        //    //var loadedObject = Resources.Load(@"Assets/SimpleWebBrowser/Prefabs/Browser2D.prefab");
-        //    //if (loadedObject == null) Debug.Log("Fail to load prefab");
-        //}
     }
 
     // Update is called once per frame
@@ -78,13 +66,7 @@ public class AddRemoveWindows : MonoBehaviour
         return false;
     }
 
-    void CreateBrowser(string name)
-    {
-        BrowserApp go = gameObject.AddComponent<BrowserApp>();
-        go.Move(createPos);
-        go.setName(name);
-    }
-
+    #region Add Remove Events
     void OnAddWindow(WindowCapture window)
     {
         Debug.Log("Trying");
@@ -96,8 +78,8 @@ public class AddRemoveWindows : MonoBehaviour
                 Debug.Log("Creating notepad");
                 NotePadApp newObj = gameObject.AddComponent<NotePadApp>();
                 newObj.passWindow(window);
-                newObj.Move(createPos);
                 newObj.Rotate(createRot);
+                newObj.Move(createPos);
                 listObjects[window.hwnd] = newObj;
             }
             else if(window.windowInfo.className.Equals("MSPaintApp") && showPaint)
@@ -105,27 +87,17 @@ public class AddRemoveWindows : MonoBehaviour
                 Debug.Log("Creating paint");
                 PaintApp newObj = gameObject.AddComponent<PaintApp>();
                 newObj.passWindow(window);
-                newObj.Move(createPos);
                 newObj.Rotate(createRot);
+                newObj.Move(createPos);
                 listObjects[window.hwnd] = newObj;
             }
-            //else if (window.windowInfo.className.Equals("Chrome_WidgetWin_1") && showBrowser)
-            //{
-            //    //Não mostra imagem
-            //    Debug.Log("Creating edge browser");
-            //    BaseApplication newObj = gameObject.AddComponent<BaseApplication>();
-            //    newObj.passWindow(window);
-            //    newObj.Move(createPos);
-            //    listObjects[window.hwnd] = newObj;
-            //}
             else if (window.windowInfo.className.Equals("SALFRAME") && showSheets)
             {
-                //Não mostra imagem
                 Debug.Log("Creating sheets");
                 BaseApplication newObj = gameObject.AddComponent<LibreOfficeCalcApp>();
                 newObj.passWindow(window);
-                newObj.Move(createPos);
                 newObj.Rotate(createRot);
+                newObj.Move(createPos);
                 listObjects[window.hwnd] = newObj;
             }
             Debug.Log("Add");
@@ -142,4 +114,5 @@ public class AddRemoveWindows : MonoBehaviour
             listObjects.Remove(window.hwnd);
         }
     }
+    #endregion
 }

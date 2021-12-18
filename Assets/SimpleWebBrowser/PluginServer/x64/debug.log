@@ -39302,3 +39302,5 @@
 [1217/093113.488:WARNING:quota_manager.cc(1833)] Create directory failed for path
 [1217/093113.544:WARNING:quota_manager.cc(1833)] Create directory failed for path
 [1217/093113.571:WARNING:quota_manager.cc(1833)] Create directory failed for path
+[1217/175034.208:ERROR:browser_host_impl.cc(1548)] Invalid URL passed to CefBrowserHostImpl::LoadURL: 
+[1217/180012.926:ERROR:browser_host_impl.cc(1548)] Invalid URL passed to CefBrowserHostImpl::LoadURL: 

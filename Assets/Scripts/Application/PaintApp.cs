@@ -33,30 +33,23 @@ public class PaintApp : BaseApplication
                 if (mousePosChanged)
                 {
                     foo = Win32Funcs.PostMessage(windChild, Win32Types.command.WM_MOUSEMOVE, 0, oldMousePos - upLeftPos);
-                    //Debug.Log(foo);
                     mousePosChanged = false;
                 }
 
                 if (pointer.mouseLeftDown)
                 {
-                    Debug.Log("Pressed primary button");
                     foo = Win32Funcs.PostMessage(windChild, Win32Types.command.WM_LBUTTONDOWN, 0, oldMousePos - upLeftPos);
-                    //Debug.Log(foo);
                 }
                 else if (pointer.mouseLeftUp)
                 {
-                    Debug.Log("Unpressed primary button");
                     foo = Win32Funcs.PostMessage(windChild, Win32Types.command.WM_LBUTTONUP, 0, oldMousePos - upLeftPos);
-                    //Debug.Log(foo);
                 }
                 else if (Input.anyKeyDown)
                 {
                     string str = Input.inputString;
-                    //Debug.Log("Trying click " + str);
                     foreach (char c in str)
                     {
                         foo = Win32Funcs.PostMessage(windChild, Win32Types.command.WM_CHAR, c, 0x0001);
-                        //Debug.Log(foo);
                     }
                 }
             }

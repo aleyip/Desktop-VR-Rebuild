@@ -35,29 +35,23 @@ public class NotePadApp : BaseApplication
 
                 if (pointer.mouseLeftDown)
                 {
-                    Debug.Log("Pressed primary button");
                     int foo = Win32Funcs.PostMessage(windChild, Win32Types.command.WM_LBUTTONDOWN, 0, oldMousePos - upLeftPos);
                 }
                 else if (pointer.mouseLeftUp)
                 {
-                    Debug.Log("Unpressed primary button");
                     int foo = Win32Funcs.PostMessage(windChild, Win32Types.command.WM_LBUTTONUP, 0, oldMousePos - upLeftPos);
                 }
                 else if (pointer.inputString != null)
                 {
-                    Debug.Log("Trying click " + pointer.inputString);
                     foreach (char c in pointer.inputString)
                     {
                         int foo;
                         if (Win32Types.VirtualKeyCode.ContainsKey(c)) foo = Win32Types.VirtualKeyCode[c];
                         else foo = Convert.ToInt32(c);
                         foo = Win32Funcs.PostMessage(windChild, Win32Types.command.WM_KEYDOWN, foo, 0x0001);
-                        Debug.Log($"{foo}  { Convert.ToInt32(c)}");
                     }
                 }
             }
-            else
-                Debug.Log("FALSE");
         }
 
 

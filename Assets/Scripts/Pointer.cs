@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Pointer : MonoBehaviour
 {
+    #region NonSerialized Fields
+
     Shader sphereShader;
 
     public Ray rayPointer;
 
-    enum controlOption {mouse};
-    [SerializeField]
-    controlOption control;
+    enum controlOption {mouse2D, mouse3D ,hydraRazor};
 
     public RaycastHit hit;
 
@@ -36,66 +36,112 @@ public class Pointer : MonoBehaviour
     [NonSerialized]
     public Color sphereColor = Color.white;
 
-    public float radius;
-
-    Renderer rend;
-
     //dados iniciais do ponteiro
     float scaleInit;
     float distInit;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //sphereShader = Shader.Find("SphereShader");
+    Renderer rend;
 
-        //gameObject.transform.GetComponent<Renderer>().material = new Material(sphereShader);
+    Dictionary<controlOption, Action> Controller;
+
+    #endregion
+
+    #region Serialized Fields
+    public float radius;
+
+    [SerializeField]
+    controlOption control;
+
+    public float sensibilidade = 2.0f;
+
+    #endregion
+
+    #region Input Controllers
+
+    void mouse2DController()
+    {
+        rayPointer = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        mouseLeftDown = Input.GetMouseButtonDown(0);
 
         mouseLeftDown = Input.GetMouseButtonDown(0);
         mouseRightDown = Input.GetMouseButtonDown(1);
         mouseMiddleDown = Input.GetMouseButtonDown(2);
         mouseLeftUp = Input.GetMouseButtonUp(0);
         mouseRightUp = Input.GetMouseButtonUp(1);
-        mouseMiddleUp = Input.GetMouseButtonUp(0);
+        mouseMiddleUp = Input.GetMouseButtonUp(2);
+        mouseLeftHold = Input.GetMouseButton(0);
+        mouseRightHold = Input.GetMouseButton(1);
+        mouseMiddleHold = Input.GetMouseButton(2);
 
+        mouseWheelValue = Input.GetAxis("Mouse ScrollWheel");
+
+        if (Input.anyKeyDown)
+        {
+            inputString = Input.inputString;
+            foreach (char c in inputString) Debug.Log((int)c);
+        }
+        else
+            inputString = null;
+    }
+
+    void mouse3DController()
+    {
+        //mouseX += Input.GetAxis("Mouse X") * sensibilidade; // Incrementa o valor do eixo X e multiplica pela sensibilidade
+        //mouseY -= Input.GetAxis("Mouse Y") * sensibilidade; // Incrementa o valor do eixo Y e multiplica pela sensibilidade. (Obs. usamos o - para inverter os valores)
+        //Adaptar aqui usando GetAxis
+
+        mouseLeftDown = Input.GetMouseButtonDown(0);
+
+        mouseLeftDown = Input.GetMouseButtonDown(0);
+        mouseRightDown = Input.GetMouseButtonDown(1);
+        mouseMiddleDown = Input.GetMouseButtonDown(2);
+        mouseLeftUp = Input.GetMouseButtonUp(0);
+        mouseRightUp = Input.GetMouseButtonUp(1);
+        mouseMiddleUp = Input.GetMouseButtonUp(2);
+        mouseLeftHold = Input.GetMouseButton(0);
+        mouseRightHold = Input.GetMouseButton(1);
+        mouseMiddleHold = Input.GetMouseButton(2);
+
+        mouseWheelValue = Input.GetAxis("Mouse ScrollWheel");
+
+        if (Input.anyKeyDown)
+        {
+            inputString = Input.inputString;
+            foreach (char c in inputString) Debug.Log((int)c);
+        }
+        else
+            inputString = null;
+    }
+
+    void hydraRazorController()
+    {
+        //TO DO... adicionar aqui código para controle usando hydra razor
+    }
+
+    #endregion
+
+    // Start is called before the first frame update
+    void Start()
+    {
         rend = gameObject.GetComponent<Renderer>();
 
         activeObjectID = 0;
 
         scaleInit = this.transform.localScale.x;
         distInit = this.transform.position.magnitude;
+
+        Controller = new Dictionary<controlOption, Action>();
+        Controller.Add(controlOption.hydraRazor, hydraRazorController);
+        Controller.Add(controlOption.mouse2D, mouse2DController);
+        Controller.Add(controlOption.mouse3D, mouse3DController);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (control == controlOption.mouse)
-        {
-            rayPointer = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Controller[control]();
 
-            mouseLeftDown = Input.GetMouseButtonDown(0);
-
-            mouseLeftDown = Input.GetMouseButtonDown(0);
-            mouseRightDown = Input.GetMouseButtonDown(1);
-            mouseMiddleDown = Input.GetMouseButtonDown(2);
-            mouseLeftUp = Input.GetMouseButtonUp(0);
-            mouseRightUp = Input.GetMouseButtonUp(1);
-            mouseMiddleUp = Input.GetMouseButtonUp(2);
-            mouseLeftHold = Input.GetMouseButton(0);
-            mouseRightHold = Input.GetMouseButton(1);
-            mouseMiddleHold = Input.GetMouseButton(2);
-
-            mouseWheelValue = Input.GetAxis("Mouse ScrollWheel");
-
-            if (Input.anyKeyDown)
-            {
-                inputString = Input.inputString;
-                foreach (char c in inputString) Debug.Log((int)c);
-            }
-            else
-                inputString = null;
-            
-        }
         if (Physics.Raycast(new Vector3(0, 0, 0), rayPointer.direction, out hit, 1000.0f))
         {
             this.transform.position = hit.point;
